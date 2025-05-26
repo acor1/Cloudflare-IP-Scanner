@@ -1,7 +1,5 @@
 #!/bin/bash
 set -euo pipefail
-
-# 🎨 Terminal UI colors and icons
 BOLD="\033[1m"
 GREEN="\033[1;32m"
 YELLOW="\033[1;33m"
@@ -14,7 +12,7 @@ CROSS="❌"
 SPINNER=("|" "/" "-" "\\")
 
 clear
-# ✅ ACOR1 logo
+
 echo -e "${CYAN}${BOLD}"
 cat <<'EOF'
  █████╗  ██████╗  ██████╗ ██████╗  ██╗
@@ -29,7 +27,7 @@ echo -e "${RESET}"
 echo
 sleep 0.8
 
-# Spinner loading function
+
 loading() {
   local pid=$1 msg=$2
   i=0
@@ -42,17 +40,17 @@ loading() {
   printf "\r${GREEN}${CHECKMARK} ${msg} completed.${RESET}\n"
 }
 
-# Node.js check
+
 ( if ! command -v node &>/dev/null; then
     curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - >/dev/null 2>&1
     sudo apt install -y nodejs >/dev/null 2>&1
   fi ) & loading $! "Checking Node.js"
 
-# npm init + deps
+
 ( [ ! -f package.json ] && npm init -y >/dev/null 2>&1
   npm install node-fetch@2 cli-progress p-limit >/dev/null 2>&1 ) & loading $! "Installing Dependencies"
 
-# Embed JS scanner directly
+
 cat > check-ir.js << 'EOF'
 const fetch = require('node-fetch');
 const fs = require('fs');
@@ -142,7 +140,7 @@ function decodeBase64(b64) {
 })();
 EOF
 
-# Menu loop
+
 while true; do
   echo -e "\n${CYAN}${BOLD}📋 Main Menu:${RESET}"
   echo -e "${YELLOW}1) Start New IP Range Scan${RESET}"
